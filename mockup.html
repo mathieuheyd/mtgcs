@@ -36,14 +36,6 @@
         </style>
     </head>
     <body>
-        <div>
-            <label for="set-select">Draft Set:</label>
-            <select id="set-select">
-                <option value="tbd">Theros Beyond Death</option>
-                <option value="eld">Throne of Eldraine</option>
-            </select>
-        </div>
-
         <div id="color_selector">
         </div>
 
@@ -57,7 +49,9 @@
         <script src="https://unpkg.com/requirejs@2.3.6/require.js" crossorigin></script>
 
         <script src="actions.js" type="text/babel"></script>
+        <script src="store.js" type="text/babel"></script>
         <script src="reducers.js" type="text/babel"></script>
+        <script src="set_selector.js" type="text/babel"></script>
         <script src="colors_selector.js" type="text/babel"></script>
         <script src="card_symbol.js" type="text/babel"></script>
         <script src="cards_fetcher.js" type="text/babel"></script>

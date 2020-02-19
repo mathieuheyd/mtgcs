@@ -1,19 +1,24 @@
-function colors(state = { colors: [] }, action) {
+function colorsReducer(state = [], action) {
     switch (action.type) {
         case SELECT_COLOR:
-            return {
-                colors: [
-                    ...state.colors,
+            return [
+                    ...state,
                     action.color
                 ]
-            }
         case UNSELECT_COLOR:
-            return {
-                colors: state.colors.filter(c => c != action.color)
-            }
+            return state.filter(c => c != action.color);
         default:
             return state;
     }
 }
 
-const reducers = colors;
+function setReducer(state = 'tbd', action) {
+    switch (action.type) {
+        case SELECT_SET:
+            return action.set;
+        default:
+            return state;
+    }
+}
+
+const reducers = Redux.combineReducers({ colors: colorsReducer, set: setReducer });

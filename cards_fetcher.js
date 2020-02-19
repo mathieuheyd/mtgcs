@@ -11,13 +11,13 @@ class CardsFetcher extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.selectedColors !== prevProps.selectedColors) {
+    if (this.props.selection !== prevProps.selection) {
       this.fetchCards();
     }
   }
 
   fetchCards() {
-    if (this.props.selectedColors.length == 0) {
+    if (this.props.selection.colors.length == 0) {
       this.setState({cards: []});
     } else {
       fetch(this.query())
@@ -34,8 +34,9 @@ class CardsFetcher extends React.Component {
   }
 
   query() {
-    var colors = this.props.selectedColors.join('');
-    return 'https://api.scryfall.com/cards/search?order=cmc&q=type%3Ainstant+color%3C%3D' + colors + '+set%3Atbd';
+    var set = this.props.selection.set;
+    var colors = this.props.selection.colors.join('');
+    return 'https://api.scryfall.com/cards/search?order=cmc&q=type%3Ainstant+color%3C%3D' + colors + '+set%3A' + set;
   }
 
   render() {
@@ -47,7 +48,10 @@ class CardsFetcher extends React.Component {
 const ConnectedCardsFetcher = ReactRedux.connect(
   (state) => {
     return {
-      selectedColors: state.colors
+      selection: {
+        set: state.set,
+        colors: state.colors
+      }
     }
   },
   null
