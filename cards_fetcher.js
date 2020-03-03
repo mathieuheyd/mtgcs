@@ -20,11 +20,14 @@ class CardsFetcher extends React.Component {
     if (this.props.selection.colors.length == 0) {
       this.setState({cards: []});
     } else {
-      fetch(this.query())
-      .then(res => res.json())
+      Promise.all([
+        fetch(this.queryInstant()).then(res => res.json()),
+        fetch(this.queryFlash()).then(res => res.json())
+      ])
       .then(
         (result) => {
-          this.setState({cards: result.data.map(card => card.image_uris.png)});
+          var cards = Array.from(new Map(result[0].data.concat(result[1].data).map(card => [card.id, card])).values());
+          this.setState({cards: cards.map(card => card.image_uris.normal)});
         },
         (error) => {
           console.log('Failed fetching', error);
@@ -33,10 +36,16 @@ class CardsFetcher extends React.Component {
     }
   }
 
-  query() {
+  queryInstant() {
     var set = this.props.selection.set;
     var colors = this.props.selection.colors.join('');
     return 'https://api.scryfall.com/cards/search?order=cmc&q=type%3Ainstant+color%3C%3D' + colors + '+set%3A' + set;
+  }
+
+  queryFlash() {
+    var set = this.props.selection.set;
+    var colors = this.props.selection.colors.join('');
+    return 'https://api.scryfall.com/cards/search?order=cmc&q=oracle%3Aflash+-oracle%3A%22as+though%22+color%3C%3D' + colors + '+set%3A' + set;
   }
 
   render() {
