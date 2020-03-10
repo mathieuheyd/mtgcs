@@ -3,7 +3,14 @@
 class CardSymbol extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { active: false };
+    this.state = { active: this.props.colors.includes(this.props.color) };
+  }
+
+  componentDidUpdate(prevProps) {
+    var active = this.props.colors.includes(this.props.color);
+    if (active !== this.state.active) {
+      this.setState({active: active});
+    }
   }
 
   render() {
@@ -18,7 +25,6 @@ class CardSymbol extends React.Component {
               } else {
                 this.props.selectColor(this.props.color);
               }
-              this.setState({ active: !this.state.active });
             }
         },
         '{' + this.props.color + '}'
@@ -27,7 +33,11 @@ class CardSymbol extends React.Component {
 }
 
 const ConnectedCardSymbol = ReactRedux.connect(
-  null,
+  (state) => {
+    return {
+      colors: state.colors
+    }
+  },
   {
     selectColor,
     unselectColor
