@@ -17,6 +17,7 @@ class SetSelector extends React.Component {
     <div>
         <label htmlFor="set-select">Draft Set:</label>
         <select id="set-select" value={this.props.selectedSet} onChange={this.handleChange}>
+            <option value="iko">Ikoria: Lair of Behemoths</option>
             <option value="tbd">Theros Beyond Death</option>
             <option value="eld">Throne of Eldraine</option>
         </select>

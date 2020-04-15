@@ -1,4 +1,4 @@
 class Store {
-    set = 'tbd';
+    set = 'iko';
     colors = [];
 }
